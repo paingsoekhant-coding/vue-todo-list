@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="container col-6 mt-4 ">
     <HomePage/>
   </div>
 </template>
 
 <script setup>
 
-  import HomePage  from "./views/HomePage.vue"
+  import HomePage  from "./components/HomePage.vue"
 </script>
