@@ -3,7 +3,21 @@
     <div class="card shadow-lg">
       <div class="card-header d-flex justify-content-between">
         <h4>Todo App With Vue</h4>
-        <a href="" class="btn btn-dark text-white rounded">Add Todo</a>
+
+        <!-- <a href="" class="btn btn-dark text-white rounded">Add Todo</a> -->
+        <div class="">
+          <input
+            type="text"
+            name=""
+            id=""
+            class="form-control"
+            v-model="newData"
+            v-on:keyup.enter="create"
+          />
+          <button class="btn btn-dark mt-2" v-on:click="create">
+            Add Todo
+          </button>
+        </div>
       </div>
       <div class="card-body">
         <div class="text-center">
@@ -49,6 +63,7 @@ export default {
   name: "HomePage",
   data: () => ({
     hideComplete: false,
+    newData: "",
     tasks: [
       { action: "Buy new phone", isDone: false },
       { action: "Buy food ", isDone: false },
@@ -72,6 +87,23 @@ export default {
     //     return this.tasks;
     //   }
     // },
+  },
+  methods: {
+    create() {
+      if (this.newData !== "") {
+        this.tasks.push({
+          action: this.newData,
+          isDone: false,
+        });
+        this.newData = "";
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Please Fill New Data!",
+        });
+      }
+    },
   },
 };
 </script>
