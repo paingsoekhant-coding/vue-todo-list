@@ -1,6 +1,20 @@
 # vue-todo-list
 
-This template should help get you started developing with Vue 3 in Vite.
+ToDo list is a simple web application to save Your daily tasks in order not to miss anything.
+
+# Features
+
+- Add new tasks
+- Delete Single tasks
+- Mark tasks as completed / uncompleted
+
+# Technologies used
+
+- HTML
+- CSS
+- Bootstrap
+- SweetAlert2
+- Vue3
 
 ## Recommended IDE Setup
 
