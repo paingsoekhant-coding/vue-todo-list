@@ -12,45 +12,52 @@
             id=""
             class="form-control"
             v-model="newData"
-            v-on:keyup.enter="create"
+            v-on:keyup.enter="create_todo"
           />
-          <button class="btn btn-dark mt-2" v-on:click="create">
+          <button class="btn btn-dark mt-2" v-on:click="create_todo">
             Add Todo
           </button>
         </div>
       </div>
       <div class="card-body">
-        <div class="text-center">
-          <label for="">Hide Complete Tasks</label>
-          <input
-            type="checkbox"
-            v-model="hideComplete"
-            class="form-check-input bg-secondary ms-2"
-          />
-        </div>
-        <div class="d-flex" v-for="(task, index) in filterTasks" :key="index">
-          <div class="d-flex col-8">
-            <input
-              class="form-check-input me-2 bg-secondary"
-              type="checkbox"
-              value=""
-              v-model="task.isDone"
-            />
-            <p v-bind:class="task.isDone ? 'done-tasks' : ' '">
-              {{ task.action }}
+        <div class="" v-if="tasks.length == 0">
+          <div class="text-center">
+            <p class="alert alert-warning text-secondary">
+              There is no todo here! Create Your Todo List.
             </p>
           </div>
-          <div class="col-4 d-flex justify-content-center">
-            <p>
-              <a href="" class="btn btn-sm me-2 delete-btn text-white"
-                ><i class="fa-solid fa-trash"></i
-              ></a>
-            </p>
-            <p>
-              <a href="" class="btn btn-sm edit-btn text-white"
-                ><i class="fa-solid fa-pen"></i
-              ></a>
-            </p>
+        </div>
+        <div class="" v-else>
+          <div class="text-center">
+            <label for="">Hide Complete Tasks</label>
+            <input
+              type="checkbox"
+              v-model="hideComplete"
+              class="form-check-input bg-secondary ms-2"
+            />
+          </div>
+          <div class="d-flex" v-for="(task, index) in filterTasks" :key="index">
+            <div class="d-flex col-8">
+              <input
+                class="form-check-input me-2 bg-secondary"
+                type="checkbox"
+                value=""
+                v-model="task.isDone"
+              />
+              <p v-bind:class="task.isDone ? 'done-tasks' : ' '">
+                {{ task.action }}
+              </p>
+            </div>
+            <div class="col-4 d-flex justify-content-center">
+              <p>
+                <a
+                  href=""
+                  v-on:click="deleteData()"
+                  class="btn btn-sm me-2 delete-btn text-white"
+                  ><i class="fa-solid fa-trash"></i
+                ></a>
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -64,13 +71,9 @@ export default {
   data: () => ({
     hideComplete: false,
     newData: "",
-    tasks: [
-      { action: "Buy new phone", isDone: false },
-      { action: "Buy food ", isDone: false },
-      { action: "Buy shirt", isDone: false },
-      { action: "Buy shoes", isDone: false },
-    ],
+    tasks: [],
   }),
+
   computed: {
     // ES6 function
     filterTasks() {
@@ -88,12 +91,19 @@ export default {
     //   }
     // },
   },
+
   methods: {
-    create() {
+    create_todo() {
       if (this.newData !== "") {
         this.tasks.push({
           action: this.newData,
           isDone: false,
+        });
+        localStorage.setItem("todo_data", JSON.stringify(this.tasks));
+        Swal.fire({
+          title: "Good job!",
+          text: "Todo create Successfully.",
+          icon: "success",
         });
         this.newData = "";
       } else {
@@ -104,6 +114,18 @@ export default {
         });
       }
     },
+
+    deleteData(index) {
+      this.tasks.splice(index, 1);
+      localStorage.setItem("todo_data", JSON.stringify(this.tasks));
+    },
+  },
+
+  mounted() {
+    let data = localStorage.getItem("todo_data");
+    if (data !== null) {
+      this.tasks = JSON.parse(data);
+    }
   },
 };
 </script>
