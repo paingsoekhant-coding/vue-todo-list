@@ -3,21 +3,11 @@
     <div class="card shadow-lg">
       <div class="card-header d-flex justify-content-between">
         <h4>Todo App With Vue</h4>
-
-        <!-- <a href="" class="btn btn-dark text-white rounded">Add Todo</a> -->
-        <div class="">
-          <input
-            type="text"
-            name=""
-            id=""
-            class="form-control"
-            v-model="newData"
-            v-on:keyup.enter="create_todo"
-          />
-          <button class="btn btn-dark mt-2" v-on:click="create_todo">
-            Add Todo
-          </button>
-        </div>
+        <router-link
+          to="/create"
+          class="btn btn-success text-decoration-none text-white"
+          >Create Todo</router-link
+        >
       </div>
       <div class="card-body">
         <div class="" v-if="tasks.length == 0">
@@ -70,7 +60,6 @@ export default {
   name: "HomePage",
   data: () => ({
     hideComplete: false,
-    newData: "",
     tasks: [],
   }),
 
@@ -93,28 +82,6 @@ export default {
   },
 
   methods: {
-    create_todo() {
-      if (this.newData !== "") {
-        this.tasks.push({
-          action: this.newData,
-          isDone: false,
-        });
-        localStorage.setItem("todo_data", JSON.stringify(this.tasks));
-        Swal.fire({
-          title: "Good job!",
-          text: "Todo create Successfully.",
-          icon: "success",
-        });
-        this.newData = "";
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Please Fill New Data!",
-        });
-      }
-    },
-
     deleteData(index) {
       this.tasks.splice(index, 1);
       localStorage.setItem("todo_data", JSON.stringify(this.tasks));
